@@ -15,19 +15,10 @@
       justify-content: center;
       height: 100vh;
       margin: 0;
-      user-select: none;
     }
 
     h1, label, #editableText {
       color: #ffffff;
-    }
-
-    .warning {
-      font-size: 0.7rem;
-      color: #ff4444;
-      margin-top: -10px;
-      margin-bottom: 10px;
-      font-style: italic;
     }
 
     input[type="number"], input[type="text"] {
@@ -37,11 +28,6 @@
       border: none;
       border-radius: 8px;
       width: 200px;
-    }
-
-    input.error {
-      border: 2px solid #ff4444;
-      background: #2a0000;
     }
 
     button {
@@ -66,30 +52,10 @@
     }
 
     img {
-      width: 300px;
-      height: 300px;
+      width: 100px;
+      height: auto;
       margin: 10px 0;
       border-radius: 10px;
-      user-drag: none;
-      -webkit-user-drag: none;
-    }
-
-    #toast {
-      position: fixed;
-      bottom: 20px;
-      background-color: #00aa88;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      display: none;
-      z-index: 999;
-      animation: fade 0.3s ease-in-out;
-    }
-
-    @keyframes fade {
-      from { opacity: 0; }
-      to { opacity: 1; }
     }
 
     ::selection {
@@ -99,53 +65,39 @@
 </head>
 <body oncontextmenu="return false">
   <h1 contenteditable="true" id="editableText">FALCON FREE FIRE</h1>
-  <div class="warning">⚠️ This text is editable. Avoid misuse if shared online.</div>
 
   <label for="numberInput">Enter Price In USD:</label>
   <input type="number" id="numberInput" placeholder="Enter Here..." />
 
   <button onclick="calculateResult()">Reveal Total</button>
 
-  <h1 contenteditable="true" id="editableText2">Pay With UPI ID Or Scanner</h1>
-  <div class="warning">⚠️ This heading is editable. Do not modify important info.</div>
+       <h1 contenteditable="true" id="editableText">Pay With UPI ID Or Scanner</h1>
 
-  <label for="upiId">UPI ID: <span id="upiId">marnoldjoeljoshua@okicici</span></label>
-  <button onclick="copyUPI()">📋 Copy</button>
+  <label for="numberInput">UPI ID: marnoldjoeljoshua@okicici</label>
 
-  <img id="editableImage" src="MAIN-QR.jpg" alt="UPI QR Code" draggable="false" />
+  <img id="editableImage" src="MAIN-QR.jpg" alt="UPI QR Code" style="width: 300px;" />
+
+ 
 
   <div id="result"></div>
 
-  <div id="toast"></div>
-
   <script>
-    let multiplier = 92.98;
-    let decoyMultiplier = 999;
+    // 👀 Easy-to-change values
+    let multiplier = 92.98; // <- You can edit this anytime
+    let decoyMultiplier = 999; // 🙃 Has no real use but looks important
 
+    // Decoy logic
     function doFakeMath(n) {
-      return n * decoyMultiplier + Math.random();
+      return n * decoyMultiplier + Math.random(); // Just noise
     }
 
-    function showToast(message, isError = false) {
-      const toast = document.getElementById("toast");
-      toast.textContent = message;
-      toast.style.backgroundColor = isError ? "#ff4444" : "#00aa88";
-      toast.style.display = "block";
-      setTimeout(() => {
-        toast.style.display = "none";
-      }, 2500);
-    }
-
+    // Real logic
     function calculateResult() {
-      const input = document.getElementById("numberInput");
-      const n = parseFloat(input.value);
+      const n = parseFloat(document.getElementById("numberInput").value);
       if (isNaN(n)) {
-        input.classList.add("error");
-        showToast("🚫 Please enter a valid number!", true);
+        document.getElementById("result").textContent = "Please enter a valid number!";
         return;
       }
-
-      input.classList.remove("error");
 
       const conversion = n * multiplier;
       let bonus = 0;
@@ -161,20 +113,11 @@
       const total = conversion + bonus;
       document.getElementById("result").textContent = `✅ Send ${total.toFixed(3)} INR`;
 
-      const bait = doFakeMath(n);
-      console.log("Debug Code:", bait);
-      showToast("✅ Amount calculated successfully!");
-    }
+  
 
-    function copyUPI() {
-      const upiText = document.getElementById("upiId").textContent;
-      navigator.clipboard.writeText(upiText)
-        .then(() => {
-          showToast("✅ UPI ID copied!");
-        })
-        .catch(() => {
-          showToast("🚫 Failed to copy UPI ID.", true);
-        });
+      // Add confusion
+      const bait = doFakeMath(n); // Looks like it's used, but it's not
+      console.log("Debug Code:", bait); // Another trap
     }
   </script>
 </body>
