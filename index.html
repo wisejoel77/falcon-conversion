@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🧮 Precision Calculator</title>
   <style>
     body {
@@ -17,7 +17,7 @@
       margin: 0;
     }
 
-    h1, label {
+    h1, label, #editableText {
       color: #ffffff;
     }
 
@@ -58,75 +58,105 @@
       border-radius: 10px;
     }
 
-    #toast {
-      position: fixed;
-      bottom: 20px;
-      background: #00ffaa;
-      color: #000;
-      padding: 10px 20px;
-      border-radius: 10px;
-      font-weight: bold;
-      display: none;
-      z-index: 999;
+    ::selection {
+      background: #00ffaa44;
     }
 
-    .warning {
-      font-size: 0.9rem;
-      color: #ffcc00;
-      margin-top: 5px;
+    /* Toast */
+    #toast {
+      visibility: hidden;
+      min-width: 200px;
+      background-color: #333;
+      color: #00ffaa;
+      text-align: center;
+      border-radius: 8px;
+      padding: 10px;
+      position: fixed;
+      bottom: 30px;
+      z-index: 1;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.95rem;
+      box-shadow: 0 0 10px #00ffaa55;
+      transition: visibility 0s, opacity 0.4s ease;
+      opacity: 0;
+    }
+
+    #toast.show {
+      visibility: visible;
+      opacity: 1;
     }
   </style>
 </head>
 <body oncontextmenu="return false">
-  <h1 contenteditable="true" id="editable1">FALCON FREE FIRE</h1>
-  <div class="warning">⚠️ Warning: This heading is editable. Be cautious if using online.</div>
+  <h1 contenteditable="true" id="editableText">FALCON FREE FIRE</h1>
 
   <label for="numberInput">Enter Price In USD:</label>
   <input type="number" id="numberInput" placeholder="Enter Here..." />
 
   <button onclick="calculateResult()">Reveal Total</button>
 
-  <h1 contenteditable="true" id="editable2">Pay With UPI ID Or Scanner</h1>
-  <div class="warning">⚠️ Warning: This heading is editable. Be cautious if using online.</div>
+  <h1 contenteditable="true">Pay With UPI ID Or Scanner</h1>
 
-  <label for="upiId">UPI ID:
-    <span id="upiId">marnoldjoeljoshua@okicici</span>
-    <button onclick="copyUPI()">📋 Copy</button>
-  </label>
+  <label for="upiId">UPI ID: <span id="upiId">marnoldjoeljoshua@okicici</span></label>
+  <button onclick="copyUPI()">Copy UPI ID</button>
 
-  <img id="editableImage" src="MAIN-QR.jpg" alt="UPI QR Code" style="width: 300px; height: 300px;" />
+  <img id="editableImage" src="MAIN-QR.jpg" alt="UPI QR Code" />
 
   <div id="result"></div>
-  <div id="toast"></div>
+
+  <!-- Toast -->
+  <div id="toast">Copied to clipboard!</div>
 
   <script>
+    let multiplier = 92.98;
+    let decoyMultiplier = 999;
+
+    function doFakeMath(n) {
+      return n * decoyMultiplier + Math.random();
+    }
+
     function calculateResult() {
-      const input = document.getElementById('numberInput').value;
-      const price = parseFloat(input);
-      if (!isNaN(price)) {
-        const total = price * 93;
-        document.getElementById('result').textContent = `INR Total: ₹${total.toFixed(2)}`;
-      } else {
-        showToast("Please enter a valid number.");
+      const n = parseFloat(document.getElementById("numberInput").value);
+      if (isNaN(n)) {
+        showToast("❌ Please enter a valid number!");
+        return;
       }
+
+      const conversion = n * multiplier;
+      let bonus = 0;
+
+      if (n <= 5) {
+        bonus = 0.25 * conversion;
+      } else if (n <= 30) {
+        bonus = 0.22 * conversion;
+      } else {
+        bonus = 0.20 * conversion;
+      }
+
+      const total = conversion + bonus;
+      document.getElementById("result").textContent = `✅ Send ${total.toFixed(3)} INR`;
+
+      const bait = doFakeMath(n);
+      console.log("Debug Code:", bait);
     }
 
     function copyUPI() {
       const upi = document.getElementById("upiId").textContent;
       navigator.clipboard.writeText(upi).then(() => {
-        showToast("UPI ID copied to clipboard!");
+        showToast("✅ UPI ID Copied!");
       }).catch(() => {
-        showToast("Failed to copy UPI ID.");
+        showToast("❌ Copy failed!");
       });
     }
 
     function showToast(message) {
       const toast = document.getElementById("toast");
       toast.textContent = message;
-      toast.style.display = "block";
+      toast.className = "show";
       setTimeout(() => {
-        toast.style.display = "none";
-      }, 2000);
+        toast.className = toast.className.replace("show", "");
+      }, 2500);
     }
   </script>
 </body>
