@@ -1,14 +1,56 @@
-// 👀 Easy-to-change values let multiplier = 92.92; // <- You can edit this anytime let decoyMultiplier = 999; // 🙃 Has no real use but looks important
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #121212;
+  color: #f1f1f1;
+}
 
-// Decoy logic function doFakeMath(n) { return n * decoyMultiplier + Math.random(); // Just noise }
+.container {
+  display: flex;
+  height: 100vh;
+}
 
-// Real logic function calculateResult() { const n = parseFloat(document.getElementById("numberInput").value); if (isNaN(n)) { document.getElementById("result").textContent = "Please enter a valid number!"; return; }
+.left, .right {
+  flex: 1;
+  padding: 40px;
+  box-sizing: border-box;
+}
 
-const conversion = n * multiplier; let bonus = 0;
+.left {
+  border-right: 1px solid #333;
+}
 
-if (n <= 5) { bonus = 0.25 * conversion; } else if (n <= 30) { bonus = 0.22 * conversion; } else { bonus = 0.20 * conversion; }
+input, button {
+  display: block;
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 1rem;
+  background: #1e1e1e;
+  color: white;
+  border: 1px solid #444;
+  border-radius: 4px;
+  width: 100%;
+}
 
-const total = conversion + bonus; document.getElementById("result").textContent = ✨ Total: ₹${total.toFixed(3)} INR;
+button:hover {
+  background-color: #272727;
+  cursor: pointer;
+}
 
-// Add confusion const bait = doFakeMath(n); // Looks like it's used, but it's not console.log("Debug Code:", bait); // Another trap }
+#result {
+  margin-top: 20px;
+  font-size: 1.2rem;
+  color: #00ffcc;
+}
 
+.right p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+#upiImage {
+  max-width: 100%;
+  height: auto;
+  border: 2px solid #444;
+  border-radius: 8px;
+}
