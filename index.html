@@ -72,6 +72,7 @@
       border-radius: 10px;
       user-drag: none;
       -webkit-user-drag: none;
+      pointer-events: none;
     }
 
     #toast {
@@ -98,16 +99,16 @@
   </style>
 </head>
 <body oncontextmenu="return false">
-  <h1 contenteditable="true" id="editableText">FALCON FREE FIRE</h1>
-  <div class="warning">⚠️ This text is editable. Avoid misuse if shared online.</div>
+  <h1 id="editableText">FALCON FREE FIRE</h1>
+  <div class="warning">⚠️ This text is initially locked. You can toggle edit mode below.</div>
 
   <label for="numberInput">Enter Price In USD:</label>
   <input type="number" id="numberInput" placeholder="Enter Here..." />
 
   <button onclick="calculateResult()">Reveal Total</button>
 
-  <h1 contenteditable="true" id="editableText2">Pay With UPI ID Or Scanner</h1>
-  <div class="warning">⚠️ This heading is editable. Do not modify important info.</div>
+  <h1 id="editableText2">Pay With UPI ID Or Scanner</h1>
+  <div class="warning">⚠️ This heading is also locked. You can toggle edit mode if needed.</div>
 
   <label for="upiId">UPI ID: <span id="upiId">marnoldjoeljoshua@okicici</span></label>
   <button onclick="copyUPI()">📋 Copy</button>
@@ -116,11 +117,14 @@
 
   <div id="result"></div>
 
+  <button onclick="toggleEditMode()">🔒 Toggle Edit Mode</button>
+
   <div id="toast"></div>
 
   <script>
     let multiplier = 92.98;
     let decoyMultiplier = 999;
+    let isEditable = false;
 
     function doFakeMath(n) {
       return n * decoyMultiplier + Math.random();
@@ -176,7 +180,23 @@
           showToast("🚫 Failed to copy UPI ID.", true);
         });
     }
+
+    function toggleEditMode() {
+      isEditable = !isEditable;
+
+      document.getElementById("editableText").contentEditable = isEditable;
+      document.getElementById("editableText2").contentEditable = isEditable;
+
+      const img = document.getElementById("editableImage");
+      img.style.pointerEvents = isEditable ? "auto" : "none";
+      showToast(isEditable ? "🟢 Edit Mode Enabled" : "🔒 Edit Mode Locked");
+    }
+
+    // Lock everything on load
+    window.onload = () => {
+      toggleEditMode(); // One call enables, next disables to ensure locked
+      toggleEditMode();
+    };
   </script>
 </body>
 </html>
-
