@@ -1,5 +1,5 @@
 // 👀 Easy-to-change values
-let multiplier = 3.14; // <- You can edit this anytime
+let multiplier = 92.92; // <- You can edit this anytime
 let decoyMultiplier = 999; // 🙃 Has no real use but looks important
 
 // Decoy logic
