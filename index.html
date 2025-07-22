@@ -3,17 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Number Wizard</title>
+  <title>USD to INR Converter</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body oncontextmenu="return false;">
+<body oncontextmenu="return false;"> <!-- 🔒 Disable right-click -->
+
   <div class="container">
-    <img id="editableImage" src="https://via.placeholder.com/150" alt="Mystery Image" />
-    <h1 id="editableHeading">🔢 Enter Your Secret Number</h1>
-    <input type="number" id="numberInput" placeholder="Enter a number..." />
-    <button onclick="calculateResult()">Reveal Total</button>
-    <p id="result">🧠 Your result will appear here</p>
+    <!-- Left Side: Input & Result -->
+    <div class="left">
+      <h1>💸 USD to INR</h1>
+      <label for="numberInput">Enter Price in USD:</label>
+      <input type="number" id="numberInput" placeholder="e.g., 6" />
+      <button onclick="calculateResult()">Calculate</button>
+      <div id="result"></div>
+    </div>
+
+    <!-- Right Side: Static Info -->
+    <div class="right">
+      <p id="upiText">UPI ID - <strong>marnoldjoeljoshua@oksbi</strong></p>
+      <img id="upiImage" src="upi-image.png" alt="UPI QR" />
+    </div>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
